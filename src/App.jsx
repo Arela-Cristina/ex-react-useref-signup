@@ -3,6 +3,17 @@ import { useState } from 'react'
 
 function App() {
 
+  const [realName, setRealName] = useState('');
+
+  const [userName, setUserName] = useState('');
+
+  const [password, setPassword] = useState('');
+
+  const [specialization, setSpecialization] = useState('');
+
+  const [yearsOfExperience, setyearsOfExperience] = useState('');
+
+  const [textArea, settextArea] = useState('')
 
   return (
     <>
@@ -20,7 +31,7 @@ function App() {
         </div>
 
         <div className='customInput'>
-          <label for="password">Password</label>
+          <label htmlFor="password">Password</label>
           <input type="password" id="password" name="password" />
         </div>
 
@@ -33,12 +44,12 @@ function App() {
         </div>
 
         <div className='customInput'>
-          <label for="yearsOfExperience">Anni di esperienza</label>
+          <label htmlFor="yearsOfExperience">Anni di esperienza</label>
           <input type='number' id="yearsOfExperience" name="yearsOfExperience" />
         </div>
 
         <div className='customInput'>
-          <label for="description">Breve descrizione sullo sviluppatore</label>
+          <label htmlFor="description">Breve descrizione sullo sviluppatore</label>
           <textarea id="description" name="description" rows="4" cols="50"></textarea>
         </div>
 
