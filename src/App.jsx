@@ -26,6 +26,8 @@ function App() {
   const [isFilled, setIsFilled] = useState(true);
   const [validtextArea, setValidTextArea] = useState(true)
 
+  // const [validationConfirmation, setValidationConfirmation] = useState(false)
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -39,8 +41,10 @@ function App() {
       const hasSymbols = [...symbols].some(symbol => value.includes(symbol));
       if (value.length < 5 || hasSymbols) {
         setValidUserName(false);
+
       } else {
         setValidUserName(true);
+
       }
     }
 
@@ -142,7 +146,11 @@ function App() {
             required
           />
 
-          {!validUserName && <p className='errorText'>Username: Deve contenere min 6 caratteri, anche alfanumerici</p >}
+          {!validUserName ? (
+            <p className='errorText'>Username: Deve contenere min 6 caratteri, acetta caratteri alfanumerici</p>
+          ) : (
+            userName.length >= 5 && <p className='noErrorText'>Username valido ✅</p>
+          )}
 
         </div>
 
@@ -156,7 +164,11 @@ function App() {
             onChange={handleChange}
             required
           />
-          {!validPassword && <p className='errorText'>Password: Deve contenere almeno 8 caratteri, 1 lettera, 1 numero e 1 simbolo</p >}
+          {!validPassword ? (
+            <p className='errorText'>Password: Deve contenere almeno 8 caratteri, 1 lettera, 1 numero e 1 simbolo</p>
+          ) : (
+            password.length >= 8 && <p className='noErrorText'>Password valida ✅</p>
+          )}
         </div >
 
         <div className='customInput'>
@@ -201,7 +213,11 @@ function App() {
             maxLength={1000}
             required
           ></textarea>
-          {!validtextArea && <p className='errorText'>Descrizione: Deve contenere tra 100 e 1000 caratteri come max.</p >}
+          {!validtextArea ? (
+            <p className='errorText'>Descrizione: Deve contenere tra 100 e 1000 caratteri come max.</p>
+          ) : (
+            textArea.length >= 100 && <p className='noErrorText'>Descrizione valida ✅</p>
+          )}
         </div>
 
         <button type='submit'>Inviare</button>
