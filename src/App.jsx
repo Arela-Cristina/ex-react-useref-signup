@@ -5,11 +5,6 @@ function App() {
 
   console.log('render')
 
-
-
-  // stato per controllare se il campo e stato compilato
-  const [isFilled, setIsFilled] = useState(true);
-
   const [submited, setSubmited] = useState(false)
 
   const [formData, setFormData] = useState({
@@ -21,6 +16,16 @@ function App() {
     textArea: ''
   });
 
+  const letters = "abcdefghijklmnopqrstuvwxyz";
+  const numbers = "0123456789";
+  const symbols = "!@#$%^&*()-_=+[]{}|;:'\\\",.<>?/`~";
+
+  // stato validazioni
+  const [validUserName, setValidUserName] = useState(true)
+  const [validPassword, setValidPassword] = useState(true)
+  const [isFilled, setIsFilled] = useState(true);
+  const [validtextArea, setValidTextArea] = useState(true)
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -28,10 +33,44 @@ function App() {
       ...formData,
       [name]: value
     });
-    
+
+    // validazione userName
+    if (name === "userName") {
+      const hasSymbols = [...symbols].some(symbol => value.includes(symbol));
+      if (value.length < 5 || hasSymbols) {
+        setValidUserName(false);
+      } else {
+        setValidUserName(true);
+      }
+    }
+
+    // validazione password
+    if (name === "password") {
+      const hasLetters = [...letters].some(letter => value.includes(letter));
+      const hasSymbols = [...symbols].some(symbol => value.includes(symbol));
+      const hasNumbers = [...numbers].some(number => value.includes(number));
+      if (value.length < 7 || !hasSymbols || !hasNumbers || !hasLetters) {
+        setValidPassword(false);
+      } else {
+        setValidPassword(true);
+      }
+    }
+
+    // validazione specializazzione
     if (name === "specialization" && value !== "") {
       setIsFilled(true);
     }
+
+    // validazione textArea
+    if (name === "textArea") {
+      if (value.trim().length < 100) {
+        setValidTextArea(false)
+      } else {
+        setValidTextArea(true)
+      }
+    }
+
+
   }
 
   const handleSubmit = (e) => {
@@ -54,7 +93,7 @@ function App() {
           userName,
           password,
           specialization,
-          yearsOfExperience,
+          yearsOfExperience: parseInt(yearsOfExperience),
           textArea
         }
 
@@ -62,11 +101,9 @@ function App() {
 
 
     } else {
-
       setSubmited(false)
       setIsFilled(false)
       console.log('Ci sono dei campi senza compilare');
-
     }
 
   }
@@ -89,6 +126,8 @@ function App() {
             onChange={handleChange}
             required
           />
+
+
         </div>
 
         <div className='customInput'>
@@ -103,6 +142,8 @@ function App() {
             required
           />
 
+          {!validUserName && <p className='errorText'>Username: Deve contenere min 6 caratteri, anche alfanumerici</p >}
+
         </div>
 
         <div className='customInput'>
@@ -115,7 +156,7 @@ function App() {
             onChange={handleChange}
             required
           />
-
+          {!validPassword && <p className='errorText'>Password: Deve contenere almeno 8 caratteri, 1 lettera, 1 numero e 1 simbolo</p >}
         </div >
 
         <div className='customInput'>
@@ -157,9 +198,10 @@ function App() {
             cols="50"
             value={textArea}
             onChange={handleChange}
+            maxLength={1000}
             required
           ></textarea>
-
+          {!validtextArea && <p className='errorText'>Descrizione: Deve contenere tra 100 e 1000 caratteri come max.</p >}
         </div>
 
         <button type='submit'>Inviare</button>
