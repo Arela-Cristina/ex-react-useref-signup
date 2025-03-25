@@ -6,6 +6,7 @@ function App() {
   console.log('render')
 
   const [submited, setSubmited] = useState(false)
+  const [showSpecializationError, setShowSpecializationError] = useState(false)
 
   const [formData, setFormData] = useState({
     realName: '',
@@ -23,10 +24,10 @@ function App() {
   // stato validazioni
   const [validUserName, setValidUserName] = useState(true)
   const [validPassword, setValidPassword] = useState(true)
-  const [isFilled, setIsFilled] = useState(true);
+  // const [isFilled, setIsFilled] = useState(true);
   const [validtextArea, setValidTextArea] = useState(true)
 
- 
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -62,15 +63,17 @@ function App() {
 
     // validazione specializazzione
     if (name === "specialization" && value !== "") {
-      setIsFilled(true);
+      setShowSpecializationError(false)
     }
 
     // validazione textArea
     if (name === "textArea") {
-      if (value.trim().length < 100) {
-        setValidTextArea(false)
+      const textLength = value.trim().length;
+      console.log(textLength)
+      if (textLength < 100 || textLength > 1000) {
+        setValidTextArea(false);
       } else {
-        setValidTextArea(true)
+        setValidTextArea(true);
       }
     }
 
@@ -82,14 +85,22 @@ function App() {
 
     const { realName, userName, password, specialization, yearsOfExperience, textArea } = formData;
 
-    if (realName.trim() != '' &&
+    const isSpecializationValid = specialization !== '';
+    setShowSpecializationError(!isSpecializationValid);
+
+    const formValid =
+      realName.trim() != '' &&
       userName.trim() != '' &&
+      validUserName &&
       password.trim() != '' &&
+      validPassword &&
       specialization != '' &&
       Number.isInteger(Number(yearsOfExperience)) &&
       Number(yearsOfExperience) >= 0 &&
-      textArea.trim() != '') {
+      textArea.trim() != '' &&
+      validtextArea
 
+    if (formValid) {
       setSubmited(true)
       console.log('form inviato',
         {
@@ -99,14 +110,10 @@ function App() {
           specialization,
           yearsOfExperience: parseInt(yearsOfExperience),
           textArea
-        }
-
-      )
-
+        });
 
     } else {
       setSubmited(false)
-      setIsFilled(false)
       console.log('Ci sono dei campi senza compilare');
     }
 
@@ -183,6 +190,8 @@ function App() {
             <option value="frontend">Frontend</option>
             <option value="backend">Backend</option>
           </select>
+          {showSpecializationError && <p className='errorText'> Scegli una Specializazzione!</p >}
+
 
         </div >
 
@@ -224,7 +233,7 @@ function App() {
 
       </form >
       {submited && <p> Form Inviato!</p >}
-      {!isFilled && <p className='errorText'> Scegli una Specializazzione!</p >}
+      {/* {!isFilled && <p className='errorText'> Scegli una Specializazzione!</p >} */}
 
     </>
 
