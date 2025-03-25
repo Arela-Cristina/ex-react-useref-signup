@@ -24,7 +24,6 @@ function App() {
   // stato validazioni
   const [validUserName, setValidUserName] = useState(true)
   const [validPassword, setValidPassword] = useState(true)
-  // const [isFilled, setIsFilled] = useState(true);
   const [validtextArea, setValidTextArea] = useState(true)
 
 
