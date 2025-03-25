@@ -233,7 +233,6 @@ function App() {
 
       </form >
       {submited && <p> Form Inviato!</p >}
-      {/* {!isFilled && <p className='errorText'> Scegli una Specializazzione!</p >} */}
 
     </>
 
