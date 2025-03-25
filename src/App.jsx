@@ -26,7 +26,7 @@ function App() {
   const [isFilled, setIsFilled] = useState(true);
   const [validtextArea, setValidTextArea] = useState(true)
 
-  // const [validationConfirmation, setValidationConfirmation] = useState(false)
+ 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
