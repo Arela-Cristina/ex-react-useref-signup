@@ -1,5 +1,5 @@
 import './App.css'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
 function App() {
 
@@ -8,8 +8,10 @@ function App() {
   const [submited, setSubmited] = useState(false)
   const [showSpecializationError, setShowSpecializationError] = useState(false)
 
+  const nameRef = useRef(null)
+
   const [formData, setFormData] = useState({
-    realName: '',
+    // realName: '',
     userName: '',
     password: '',
     specialization: '',
@@ -76,19 +78,20 @@ function App() {
       }
     }
 
-
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    const { realName, userName, password, specialization, yearsOfExperience, textArea } = formData;
+    const { userName, password, specialization, yearsOfExperience, textArea } = formData;
+
+    const realName = nameRef.current.value.trim()
 
     const isSpecializationValid = specialization !== '';
     setShowSpecializationError(!isSpecializationValid);
 
     const formValid =
-      realName.trim() != '' &&
+      realName != '' &&
       userName.trim() != '' &&
       validUserName &&
       password.trim() != '' &&
@@ -132,8 +135,7 @@ function App() {
             placeholder='il tuo nome'
             id="realName"
             name="realName"
-            value={realName}
-            onChange={handleChange}
+            ref={nameRef}
             required
           />
 
